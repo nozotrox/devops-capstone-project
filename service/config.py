@@ -21,3 +21,29 @@ SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 # Secret for session management
 SECRET_KEY = os.getenv("SECRET_KEY", "s3cr3t-key-shhhh")
+
+# Security Configuration
+# Flask-Talisman settings
+TALISMAN_FORCE_HTTPS = os.getenv("TALISMAN_FORCE_HTTPS", "false").lower() == "true"
+TALISMAN_FORCE_HTTPS_PERMANENT_REDIRECTS = True
+TALISMAN_STRICT_TRANSPORT_SECURITY = True
+TALISMAN_STRICT_TRANSPORT_SECURITY_MAX_AGE = 31536000  # 1 year
+TALISMAN_CONTENT_SECURITY_POLICY = {
+    'default-src': ["'self'"],
+    'script-src': ["'self'", "'unsafe-inline'"],
+    'style-src': ["'self'", "'unsafe-inline'"],
+    'img-src': ["'self'", "data:", "https:"],
+    'font-src': ["'self'"],
+    'connect-src': ["'self'"],
+    'frame-ancestors': ["'none'"],
+    'base-uri': ["'self'"],
+    'form-action': ["'self'"]
+}
+
+# CORS Configuration
+CORS_ORIGINS = os.getenv("CORS_ORIGINS", "*").split(",")
+CORS_METHODS = ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+CORS_ALLOW_HEADERS = ["Content-Type", "Authorization", "X-Requested-With"]
+CORS_EXPOSE_HEADERS = ["Content-Type", "X-Total-Count"]
+CORS_SUPPORTS_CREDENTIALS = True
+CORS_MAX_AGE = 3600  # 1 hour

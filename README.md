@@ -7,6 +7,31 @@
 
 This repository contains the starter code for the project in [**IBM-CD0285EN-SkillsNetwork DevOps Capstone Project**](https://www.coursera.org/learn/devops-capstone-project?specialization=devops-and-software-engineering) which is part of the [**IBM DevOps and Software Engineering Professional Certificate**](https://www.coursera.org/professional-certificates/devops-and-software-engineering)
 
+## Security Features
+
+This service includes comprehensive security measures to protect against common web vulnerabilities and CORS attacks:
+
+- **Security Headers**: Implemented using Flask-Talisman for protection against XSS, clickjacking, and other attacks
+- **CORS Policy**: Configured with Flask-CORS to control cross-origin resource sharing
+- **Content Security Policy**: Restricts resource loading to prevent injection attacks
+- **HTTPS Enforcement**: Optional HTTPS redirection for production environments
+
+For detailed security documentation, see [SECURITY.md](SECURITY.md).
+
+### Quick Security Setup
+
+1. Install security dependencies:
+   ```bash
+   python install_security_deps.py
+   ```
+
+2. Configure environment variables (copy `env.template` to `.env`)
+
+3. Test security implementation:
+   ```bash
+   python test_security.py
+   ```
+
 ## Usage
 
 You should use this template to start your DevOps Capstone project. It contains all of the code that you will need to get started.

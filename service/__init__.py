@@ -6,12 +6,36 @@ and SQL database
 """
 import sys
 from flask import Flask
+from flask_talisman import Talisman
+from flask_cors import CORS
 from service import config
 from service.common import log_handlers
 
 # Create Flask application
 app = Flask(__name__)
 app.config.from_object(config)
+
+# Initialize Flask-Talisman for security headers
+talisman = Talisman(
+    app,
+    force_https=app.config.get('TALISMAN_FORCE_HTTPS', False),
+    force_https_permanent_redirects=app.config.get('TALISMAN_FORCE_HTTPS_PERMANENT_REDIRECTS', True),
+    strict_transport_security=app.config.get('TALISMAN_STRICT_TRANSPORT_SECURITY', True),
+    strict_transport_security_max_age=app.config.get('TALISMAN_STRICT_TRANSPORT_SECURITY_MAX_AGE', 31536000),
+    content_security_policy=app.config.get('TALISMAN_CONTENT_SECURITY_POLICY', {}),
+    content_security_policy_nonce_in=['script-src']
+)
+
+# Initialize Flask-CORS for cross-origin resource sharing
+CORS(
+    app,
+    origins=app.config.get('CORS_ORIGINS', ['*']),
+    methods=app.config.get('CORS_METHODS', ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']),
+    allow_headers=app.config.get('CORS_ALLOW_HEADERS', ['Content-Type', 'Authorization', 'X-Requested-With']),
+    expose_headers=app.config.get('CORS_EXPOSE_HEADERS', ['Content-Type', 'X-Total-Count']),
+    supports_credentials=app.config.get('CORS_SUPPORTS_CREDENTIALS', True),
+    max_age=app.config.get('CORS_MAX_AGE', 3600)
+)
 
 # Import the routes After the Flask app is created
 # pylint: disable=wrong-import-position, cyclic-import, wrong-import-order
